@@ -7,6 +7,8 @@ echo - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 SONAR_CONFIG="/home/sonarr/config/"
 SONAR_DOWNLOADS="/home/sonarr/downloads/"
 
+IFS=""
+
 function create_directory(){
 if [ ! -d "$1" ]; then
         mkdir "$1"
@@ -43,7 +45,7 @@ else
 	passwd sonarr
 fi
 
-if [ verify_sonarr_in_docker_group ];then
+if verify_sonarr_in_docker_group;then
     usermod -a -G docker sonarr
     verify_sonarr_in_docker_group
 
@@ -52,11 +54,15 @@ fi
 create_directory $SONAR_CONFIG
 create_directory $SONAR_DOWNLOADS
 
-read -p "is \"$(timedatectl | grep 'Time zone' | cut -d: -f2 | cut -d"(" -f1)\" your timezone ? (y/n) : " tz
+read -r -p "is \"$(timedatectl | grep 'Time zone' | cut -d: -f2 | cut -d"(" -f1)\" your timezone ? (y/n) : " tz
 
 if [ "$tz" = "y" ];then
-	echo "ok"
+	echo "-> Timezone correctly configured"
 else
 	echo "nok"
 fi
 
+# Check if docker is installed
+# Install docker image of "Deluge"
+# Install docker image of "Jackett"
+# Install docker image of "Sonarr"
